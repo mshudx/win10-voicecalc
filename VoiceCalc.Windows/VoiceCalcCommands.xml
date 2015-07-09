@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.1">
+  <CommandSet xml:lang="en-us" Name="VoiceCalcCommandSet_en-us">
+    <CommandPrefix>Calculator,</CommandPrefix>
+    <Example>add 1 and 3</Example>
+    <Command Name="operationAdd">
+      <Example>add one and three</Example>
+      <ListenFor>add {firstNumber} and {secondNumber}</ListenFor>
+      <ListenFor>add {firstNumber} to {secondNumber}</ListenFor>
+      <Feedback>Calculating...</Feedback>
+      <Navigate/>
+    </Command>
+    <Command Name="operationMultiply">
+      <Example>multiply one by three</Example>
+      <ListenFor>multiply {firstNumber} by {secondNumber}</ListenFor>
+      <ListenFor>multiply {firstNumber} with {secondNumber}</ListenFor>
+      <Feedback>Calculating...</Feedback>
+      <Navigate/>
+    </Command>
+    <PhraseList Label="firstNumber">
+      <Item>0</Item>
+      <Item>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
+      <Item>4</Item>
+      <Item>5</Item>
+      <Item>6</Item>
+      <Item>7</Item>
+      <Item>8</Item>
+      <Item>9</Item>
+    </PhraseList>
+    <PhraseList Label="secondNumber">
+      <Item>0</Item>
+      <Item>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
+      <Item>4</Item>
+      <Item>5</Item>
+      <Item>6</Item>
+      <Item>7</Item>
+      <Item>8</Item>
+      <Item>9</Item>
+    </PhraseList>
+  </CommandSet>
+</VoiceCommands>

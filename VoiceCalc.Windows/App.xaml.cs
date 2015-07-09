@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using VoiceCalc.Windows.Models;
+using VoiceCalc.Windows.ViewModels;
+using VoiceCalc.Windows.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.VoiceCommands;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,6 +35,50 @@ namespace VoiceCalc.Windows
         /// </summary>
         public static Microsoft.ApplicationInsights.TelemetryClient TelemetryClient;
 
+        private async void Initialize()
+        {
+            // Initialize VCD file
+            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///VoiceCalcCommands.xml"));
+            await VoiceCommandDefinitionManager.InstallCommandDefinitionsFromStorageFileAsync(storageFile);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            if (args.Kind == ActivationKind.VoiceCommand)
+            {
+                try
+                {
+                    var typedArgs = args as VoiceCommandActivatedEventArgs;
+                    var result = typedArgs.Result;
+                    Operation operation = new Operation()
+                    {
+                        RawText = result.Text,
+                        CommandName = result.RulePath.First(),
+                        Parameter1 = result.SemanticInterpretation.Properties["firstNumber"].First(),
+                        Parameter2 = result.SemanticInterpretation.Properties["secondNumber"].First()
+                    };
+
+                    CalculationViewModel calculationViewModel = new CalculationViewModel()
+                    {
+                        Operation = operation
+                    };
+
+                    Frame rootFrame = Window.Current.Content as Frame;
+                    if (rootFrame == null)
+                    {
+                        rootFrame = new Frame();
+                        Window.Current.Content = rootFrame;
+                    }
+                    rootFrame.Navigate(typeof(MainPage), calculationViewModel);
+                    Window.Current.Activate();
+                }
+                catch { }
+            }
+        }
+
+        #region Boilerplate code
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -76,6 +126,8 @@ namespace VoiceCalc.Windows
                 Window.Current.Content = rootFrame;
             }
 
+            Initialize();
+
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
@@ -110,5 +162,6 @@ namespace VoiceCalc.Windows
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+        #endregion
     }
 }

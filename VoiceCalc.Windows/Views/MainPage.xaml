@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="VoiceCalc.Windows.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VoiceCalc.Windows"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
+            <TextBlock TextWrapping="Wrap" FontStyle="Italic">Say this to Cortana: 'Calculator add 1 and 1'</TextBlock>
+            <TextBlock Margin="0,20,0,0" >The raw text you said:</TextBlock>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Operation.RawText}"></TextBlock>
+            <TextBlock Margin="0,20,0,0">Command name:</TextBlock>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Operation.CommandName}"></TextBlock>
+            <TextBlock Margin="0,20,0,0">Parameter 1:</TextBlock>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Operation.Parameter1}"></TextBlock>
+            <TextBlock Margin="0,20,0,0">Parameter 2:</TextBlock>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Operation.Parameter2}"></TextBlock>
+            <TextBlock Margin="0,20,0,0">Result:</TextBlock>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding Result}"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
